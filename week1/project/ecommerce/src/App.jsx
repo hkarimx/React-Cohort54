@@ -1,5 +1,4 @@
 import { useMemo, useState } from "react";
-import "./index.css";
 import CategoryList from "./components/CategoryList";
 import ProductList from "./components/ProductList";
 import allProducts from "./fake-data/all-products";
