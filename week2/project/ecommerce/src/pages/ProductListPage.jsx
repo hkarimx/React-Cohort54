@@ -1,8 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import CategoryList from "../components/CategoryList";
 import ProductList from "../components/ProductList";
-
-const BASE_URL = "https://fakestoreapi.com";
+import { fetchCategories, fetchProducts } from "../api/fakeStore";
 
 function normalizeCategory(value) {
     return String(value ?? "").trim().toLowerCase();
@@ -33,7 +32,8 @@ export default function ProductListPage() {
             try {
                 setLoadingCategories(true);
                 setErrorCategories(null);
-                const data = await fetchJson(`${BASE_URL}/products/categories`);
+
+                const data = await fetchCategories();
                 if (!cancelled) setCategories(Array.isArray(data) ? data : []);
             } catch (err) {
                 if (!cancelled) setErrorCategories(err?.message || "Failed to load categories");
@@ -55,11 +55,7 @@ export default function ProductListPage() {
                 setLoadingProducts(true);
                 setErrorProducts(null);
 
-                const url = activeCategory
-                    ? `${BASE_URL}/products/category/${encodeURIComponent(activeCategory)}`
-                    : `${BASE_URL}/products`;
-
-                const data = await fetchJson(url);
+                const data = await fetchProducts(activeCategory);
                 if (!cancelled) setProducts(Array.isArray(data) ? data : []);
             } catch (err) {
                 if (!cancelled) setErrorProducts(err?.message || "Failed to load products");

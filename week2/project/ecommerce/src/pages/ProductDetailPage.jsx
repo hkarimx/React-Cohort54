@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-
-const BASE_URL = "https://fakestoreapi.com";
+import { fetchProductById } from "../api/fakeStore";
 
 export default function ProductDetailPage() {
     const { id } = useParams();
@@ -19,7 +18,7 @@ export default function ProductDetailPage() {
             setProduct(null);
 
             try {
-                const res = await fetch(`${BASE_URL}/products/${id}`);
+                const res = await fetchProductById(id);
                 if (!res.ok) throw new Error(`Product request failed: ${res.status} ${res.statusText}`);
                 const data = await res.json();
                 if (!cancelled) setProduct(data);
